@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Home Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2 id="sidebar-toggle">Ai <span>Control</span></h2>
+        <ul>
+            <li>Home</li>
+            <li>Devices</li>
+            <li>User</li>
+            <li>Cameras</li>
+            <li>Notification</li>
+            <li>Settings</li>
+            <li>Log out</li>
+            <li id="toggle-log-btn">Communication Log</li>
+        </ul>
+        <div class="datetime">
+            <span id="datetime"></span>
+        </div>
+    </div>
+
+
+    <div class="main">
+        <!-- header -  -->
+        <header>
+            <div class="rooms">
+                <button class="room-button active" data-room="living">Living room</button>
+                <button class="room-button" data-room="bedroom">Bedroom</button>
+                <button class="room-button" data-room="dining">Dining room</button>
+                <button class="room-button" data-room="kitchen">Kitchen</button>
+            </div>
+                <div class="datetime">
+                    <span id="datetime"></span>
+                </div>
+        </header>
+
+        <!-- components -->
+        <section class="cards">
+
+        </section>
+
+        <!-- dimmer -->
+    <div class="dimmer-container">
+        <h2>Multi-Channel Light Dimmer</h2>
+
+        <!-- Select channel --> 
+        <label for="channelSelect">Select Channel:</label>
+        <select id="channelSelect">
+            <option value="0">Channel 1</option>
+            <option value="1">Channel 2</option>
+            <option value="2">Channel 3</option>
+            <option value="3">Channel 4</option>
+            <option value="4">Channel 5</option>
+            <option value="5">Channel 6</option>
+            <option value="6">Channel 7</option>
+            <option value="7">Channel 8</option>
+        </select>
+
+        <div class="light" id="light"></div>
+        <div id="brightnessValue">100%</div>
+        <input type="range" min="0" max="100" value="100" id="dimmer">
+    </div>
+    
+
+
+<section class="devices">
+    <!-- Living Room -->
+
+    <!-- TV -->
+    <div class="device on" data-room="living">
+        <div class="status">ON</div>
+        <div class="icon">📺</div>
+        <span>Smart TV</span>
+        <div class="active-time"></div>
+        <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <!-- blind -->
+    <div class="device off" data-room="living">
+        <div class="status">OFF</div>
+        <div class="icon">🪟</div>
+        <span>Blind</span>
+        <div class="active-time"></div>
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+
+
+    <!-- light -->
+    <div class="device off" data-room="living">
+        <div class="status">OFF</div>
+        <div class="icon">💡</div>
+        <span>Lights</span>
+        <div class="active-time"></div>
+        <label class="switch">
+            <input type="checkbox" id="living-room-light-switch">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+
+
+    <!-- Bedroom -->
+
+    
+    <!-- light -->
+    <div class="device off" data-room="bedroom">
+        <div class="status">OFF</div>
+        <div class="icon">💡</div>
+        <span>Lights</span>
+        <div class="active-time"></div>
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <!-- Conditioner -->
+    <div class="device on" data-room="bedroom">
+        <div class="status">ON</div>
+        <div class="icon">❄️</div>
+        <span>Air Conditioner</span>
+        <div class="active-time"></div>
+        <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <!-- Kitchen -->
+
+    <!-- Speaker -->
+    <div class="device off" data-room="kitchen">
+        <div class="status">OFF</div>
+        <div class="icon">🔊</div>
+        <span>Speaker</span>
+        <div class="active-time"></div>
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <!-- blind -->
+    <div class="device off" data-room="kitchen">
+        <div class="status">OFF</div>
+        <div class="icon">🪟</div>
+        <span>Blind</span>
+        <div class="active-time"></div>
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <!-- Dining Room -->
+    <!-- (You can add any other device for dining room if needed) -->
+</section>
+
+
+</div>
+
+
+<!-- HVAC controler -->
+
+<div class="hvac-container">
+    <h2>Air Conditioner</h2>
+
+    <!-- temperature -->
+    <div>
+        <h3>Temperature</h3>
+        <div class="knob-container">
+            <svg width="180" height="180">
+            <circle class="bg" cx="90" cy="90" r="70"/>
+            <circle class="progress" id="tempProgress" cx="90" cy="90" r="70" stroke-dasharray="0 440"/>
+            </svg>
+            <div class="value-display" id="tempDisplay">24°C</div>
+        </div>
+        <div class="controls">
+            <button class="Conditioner_button" onclick="decrease()">-</button>
+            <button class="Conditioner_button" onclick="increase()">+</button>
+        </div>
+    </div>
+
+    <div style="margin: 20px 0;"></div>
+
+    <!-- humidity -->
+    <div>
+        <h3>Humidity</h3>
+        <div class="knob-container">
+            <svg width="180" height="180">
+            <circle class="bg" cx="90" cy="90" r="70"/>
+            <circle class="progress" id="humidProgress" cx="90" cy="90" r="70" stroke-dasharray="0 440"/>
+            </svg>
+            <div class="value-display" id="humidDisplay">75%</div>
+        </div>
+        <div class="controls">
+            <button class="Conditioner_button" onclick="humid_decrease()">-</button>
+            <button class="Conditioner_button" onclick="humid_increase()">+</button>
+        </div>
+    </div>
+
+</div>
+
+        
+
+        <div class="log-panel" id="log-panel">
+            <h3>Communication Log</h3>
+            <div id="log-output"></div>
+        </div>
+
+
+
+    <script src="script.js"></script>
+
+
+</body>
+</html>
