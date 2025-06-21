@@ -61,14 +61,15 @@ channelSelect.addEventListener('change', () => {
     const currentValue = channelValues[selectedChannel];
     dimmer.value = currentValue;
     updateLight(currentValue);
+    sendDimmerValue(selectedChannel, currentValue);
 });
 
-// When dimmer changes, update value for selected channel
 dimmer.addEventListener('input', () => {
     const selectedChannel = parseInt(channelSelect.value);
     const newValue = parseInt(dimmer.value);
     channelValues[selectedChannel] = newValue;
     updateLight(newValue);
+    sendDimmerValue(selectedChannel, newValue);
 });
 
 function updateLight(value) {
@@ -77,6 +78,12 @@ function updateLight(value) {
     brightnessValue.textContent = `${value}%`;
 }
 
+function sendDimmerValue(channel, value) {
+    fetch(`${esp32_ip}/dimmer?channel=${channel}&value=${value}`)
+        .then(response => response.text())
+        .then(data => console.log("ESP32 Response:", data))
+        .catch(err => console.error("Error sending to ESP32:", err));
+}
 // Initialize light on page load
 updateLight(dimmer.value);
 
@@ -168,7 +175,41 @@ humid_updateDial();
 
 
 // control light of esp32
-const esp32_ip = "http://192.168.137.154/";
+
+
+// ip input 
+let esp32_ip = "http://192.168.137.154/";  // Default IP
+
+document.getElementById("ipButton").addEventListener("click", function() {
+    document.getElementById("ipModal").style.display = "block";
+    document.getElementById("ipInput").value = esp32_ip; // pre-fill existing IP
+});
+
+document.getElementById("setButton").addEventListener("click", function() {
+    let newIp = document.getElementById("ipInput").value.trim();
+    if(newIp) {
+        esp32_ip = newIp;
+        alert("ESP32 IP set to: " + esp32_ip);
+        document.getElementById("ipModal").style.display = "none";
+    } else {
+        alert("Please enter a valid IP.");
+    }
+});
+
+document.getElementById("cancelButton").addEventListener("click", function() {
+    document.getElementById("ipModal").style.display = "none";
+});
+
+// Optional: close modal when clicking outside modal content
+window.onclick = function(event) {
+    let modal = document.getElementById("ipModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+
 
 // Select the specific switch
 const livingRoomLightSwitch = document.getElementById('living-room-light-switch');
@@ -248,12 +289,6 @@ function syncSwitchState() {
 window.addEventListener('DOMContentLoaded', () => {
     syncSwitchState();
 });
-
-
-
-
-
-
 
 // communication log animation
 const toggleLogBtn = document.getElementById('toggle-log-btn');
