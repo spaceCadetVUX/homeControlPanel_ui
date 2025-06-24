@@ -210,20 +210,15 @@ window.onclick = function(event) {
 
 
 
+// handel switch and sending command
 
-// Select the specific switch
-const livingRoomLightSwitch = document.getElementById('living-room-light-switch');
 
-// Listen to toggle event
-livingRoomLightSwitch.addEventListener('change', () => {
-    const action = livingRoomLightSwitch.checked ? 'on' : 'off';
-    sendCommand(action);
-});
+// for lighting of living room
+// General function to send command
+function sendDeviceCommand(device, action) {
+    logMessage(`Sending: /${device}/${action}`);
 
-function sendCommand(action) {
-    logMessage(`Sending: /led/${action}`);
-
-    fetch(`${esp32_ip}/led/${action}`)
+    fetch(`${esp32_ip}/${device}/${action}`)
         .then(response => response.text())
         .then(data => {
             logMessage(`Response: ${data}`);
@@ -232,6 +227,24 @@ function sendCommand(action) {
             logMessage(`Error: ${error}`);
         });
 }
+
+// Handle Living Room Light Switch
+const livingRoomLightSwitch = document.getElementById('living-room-light-switch');
+livingRoomLightSwitch.addEventListener('change', () => {
+    const action = livingRoomLightSwitch.checked ? 'on' : 'off';
+    sendDeviceCommand('led', action);
+});
+
+// Handle Living Room TV Switch
+const livingRoomTVSwitch = document.getElementById('living-room-tv-switch');
+livingRoomTVSwitch.addEventListener('change', () => {
+    const action = livingRoomTVSwitch.checked ? 'on' : 'off';
+    sendDeviceCommand('TV', action);
+});
+
+
+
+
 
 function logMessage(message) {
     const logOutput = document.getElementById('log-output');
@@ -303,4 +316,53 @@ toggleLogBtn.addEventListener('click', () => {
         toggleLogBtn.textContent = "Hide Communication Log";
     }
 });
+
+
+
+const fanSlider = document.getElementById('fanSlider');
+const fanSpeedLabel = document.getElementById('fanSpeedLabel');
+
+const fanSpeedLevels = ["LOW", "MEDIUM", "HIGH"];
+const fanColors = ["#00ff99", "#ffaa00", "#ff4444"];
+
+function updateFanSpeedLabel(value) {
+  const speed = fanSpeedLevels[value] || "UNKNOWN";
+  const color = fanColors[value] || "#ffffff";
+
+  // Apply animation
+  fanSpeedLabel.style.opacity = 0;
+  fanSpeedLabel.style.transform = "translateY(-10px)";
+
+  setTimeout(() => {
+    fanSpeedLabel.textContent = `${speed}`;
+    fanSpeedLabel.style.color = color;
+    fanSpeedLabel.style.opacity = 1;
+    fanSpeedLabel.style.transform = "translateY(0)";
+  }, 300);
+}
+
+// Initialize label on load
+updateFanSpeedLabel(fanSlider.value);
+
+// Listen for slider input
+fanSlider.addEventListener('input', function () {
+  updateFanSpeedLabel(this.value);
+});
+
+
+
+
+// Handle AC Swing ON/OFF toggle
+const acSwingSwitch = document.getElementById('ac-swing-switch');
+const acSwingStatus = document.getElementById('ac-swing-status');
+
+acSwingSwitch.addEventListener('change', function() {
+    if (this.checked) {
+        acSwingStatus.textContent = 'ON';
+    } else {
+        acSwingStatus.textContent = 'OFF';
+    }
+});
+
+
 

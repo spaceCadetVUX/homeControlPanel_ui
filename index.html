@@ -76,6 +76,9 @@
         <div id="brightnessValue">100%</div>
         <input type="range" min="0" max="100" value="100" id="dimmer">
     </div>
+
+
+
     
 
 
@@ -89,7 +92,7 @@
         <span>Smart TV</span>
         <div class="active-time"></div>
         <label class="switch">
-            <input type="checkbox" checked>
+            <input type="checkbox" id="living-room-tv-switch">
             <span class="slider"></span>
         </label>
     </div>
@@ -116,6 +119,18 @@
         <div class="active-time"></div>
         <label class="switch">
             <input type="checkbox" id="living-room-light-switch">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+
+    <div class="device" data-room="living">
+        <div class="status" id="ac-swing-status">OFF</div>
+        <div class="icon">❄️</div>
+        <span>Air Conditioner</span>
+        <div class="active-time"></div>
+        <label class="switch">
+            <input type="checkbox" id="ac-swing-switch">
             <span class="slider"></span>
         </label>
     </div>
@@ -223,6 +238,27 @@
     </div>
 
 </div>
+
+
+<div class="fan-container">
+  <h2>Fan Speed</h2>
+   <p id="fanSpeedLabel">LOW</p> <!-- Move it here -->
+  <div class="fan-slider-container">
+    <input type="range" min="0" max="2" step="1" value="0" class="fan-slider" id="fanSlider">
+    <div class="fan-labels">
+      <span>LOW</span>
+      <span>MEDIUM</span>
+      <span>HIGH</span>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+  </div>
 
         
 
